@@ -337,17 +337,17 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>This can be done for the whole network with the function <code>as_unsigned_2mode()</code> by specifying the primary mode (either TRUE or FALSE).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">gu &lt;-<span class="st"> </span><span class="kw">as_unsigned_2mode</span>(g,<span class="dt">primary =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">gu</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; IGRAPH 828b861 UN-B 8 5 -- </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; IGRAPH 5dcb0aa UN-B 8 5 -- </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; + attr: name (v/c), type (v/l)</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; + edges from 828b861 (vertex names):</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; + edges from 5dcb0aa (vertex names):</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] a-pos--1 b-pos--1 c-neg--1 a-pos--2 b-neg--2</span></a></code></pre></div>
 <p>Now, any binarization toll (e.g. from the <code>backbone</code> package) can be applied since the network is an unsigned two-mode network. For illustration, we include all edges with a weight greater one (the “universal” approach) since it can be done without the <code>backbone</code> package.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">pu &lt;-<span class="st"> </span><span class="kw">bipartite_projection</span>(gu,<span class="dt">which =</span> <span class="st">&quot;true&quot;</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">pu &lt;-<span class="st"> </span><span class="kw">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">pu</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; IGRAPH 425a966 UN-- 6 4 -- </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; IGRAPH 2d0640d UN-- 6 4 -- </span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; + attr: name (v/c)</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; + edges from 425a966 (vertex names):</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; + edges from 2d0640d (vertex names):</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; [1] a-pos--b-pos a-pos--c-neg a-pos--b-neg b-pos--c-neg</span></a></code></pre></div>
 <p>After binarization, the network is turned back to an unsigned network using a <em>contraction rule</em>. The contraction rule works as follows.</p>
 <p>If there is an edge (a-pos,b-pos) or (a-neg,b-neg) in the projection then there is a positive edge (a,b) in the signed projection.</p>
