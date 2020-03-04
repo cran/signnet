@@ -18,9 +18,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +30,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +48,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -304,8 +306,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <p>This vignette describes the use of centrality in signed networks.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(igraph)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(signnet)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(signnet)</span></code></pre></div>
 <div id="centrality-indices-for-signed-networks" class="section level2">
 <h2>Centrality indices for signed networks</h2>
 <p>There exist dozens of indices for networks with positive ties, but for signed networks they are rather scarce. The package implements three indices so far. Versions of degree and eigenvector centrality, and PN centrality by Everett &amp; Borgatti.</p>
@@ -319,47 +321,47 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The <code>mode</code> parameter can be used to get “in” and “out” versions for directed networks.</p>
 <p>The PN index is very similar to Katz status and Hubbell’s measure for networks with only positive ties. The technical details can be found in the paper by Everett &amp; Borgatti.</p>
 <p>The below example illustrates all indices with a network where signed degree can not distinguish vertices.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  </a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">               <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  </a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">               <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  </a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">               <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  </a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">               <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  </a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  </a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  </a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  </a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">              <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  </a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">               <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>),<span class="dv">10</span>,<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">g &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(A,<span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted =</span> <span class="st">&quot;sign&quot;</span>)</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw">degree_signed</span>(g,<span class="dt">type=</span><span class="st">&quot;ratio&quot;</span>)</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  [1] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">eigen_centrality_signed</span>(g)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;  [1] -0.62214960  1.00000000 -0.74518850  1.00000000 -0.89990041  0.64289592</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  [7]  0.35828159 -0.37471921 -0.28087411 -0.07834568</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw">pn_index</span>(g)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;  [1] 0.9009747 0.8613482 0.9076997 0.8613482 0.8410658 0.8496558 0.8617321</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;  [8] 0.9015909 0.8509848 0.9072930</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  </span>
+<span id="cb2-2"><a href="#cb2-2"></a>               <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  </span>
+<span id="cb2-3"><a href="#cb2-3"></a>               <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  </span>
+<span id="cb2-4"><a href="#cb2-4"></a>               <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  </span>
+<span id="cb2-5"><a href="#cb2-5"></a>               <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  </span>
+<span id="cb2-6"><a href="#cb2-6"></a>               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  </span>
+<span id="cb2-7"><a href="#cb2-7"></a>               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  </span>
+<span id="cb2-8"><a href="#cb2-8"></a>              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  </span>
+<span id="cb2-9"><a href="#cb2-9"></a>              <span class="dv">-1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  </span>
+<span id="cb2-10"><a href="#cb2-10"></a>               <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>),<span class="dv">10</span>,<span class="dv">10</span>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>g &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(A,<span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted =</span> <span class="st">&quot;sign&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="kw">degree_signed</span>(g,<span class="dt">type=</span><span class="st">&quot;ratio&quot;</span>)</span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;  [1] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="kw">eigen_centrality_signed</span>(g)</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;  [1] -0.62214960  1.00000000 -0.74518850  1.00000000 -0.89990041  0.64289592</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt;  [7]  0.35828159 -0.37471921 -0.28087411 -0.07834568</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="kw">pn_index</span>(g)</span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt;  [1] 0.9009747 0.8613482 0.9076997 0.8613482 0.8410658 0.8496558 0.8617321</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;  [8] 0.9015909 0.8509848 0.9072930</span></span></code></pre></div>
 <p>Note that PN centrality and eigenvector centrality differ significantly for this network.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">eigen_centrality_signed</span>(g),<span class="kw">pn_index</span>(g),<span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] -0.2</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">cor</span>(<span class="kw">eigen_centrality_signed</span>(g),<span class="kw">pn_index</span>(g),<span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] -0.2</span></span></code></pre></div>
 </div>
 <div id="a-note-on-eigenvector-centrality" class="section level2">
 <h2>A note on eigenvector centrality</h2>
 <p>The adjacency matrix of a signed network may not have a dominant eigenvalue. This means it is not clear which eigenvector should be used. In addition it is possible for the adjacency matrix to have repeated eigenvalues and hence multiple linearly independent eigenvectors. In this case certain centralities can be arbitrarily assigned. The <code>eigen_centrality_signed()</code> function returns an error if this is the case.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>( <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">               <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">               <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, </a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">               <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, </a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">               <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">0</span>), <span class="dv">9</span>, <span class="dv">9</span>)</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">g &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">graph_from_adjacency_matrix</span>(A,<span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted =</span> <span class="st">&quot;sign&quot;</span>)</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="kw">eigen_centrality_signed</span>(g)</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; Error in eigen_centrality_signed(g): no dominant eigenvalue exists</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>( <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, </span>
+<span id="cb4-2"><a href="#cb4-2"></a>               <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, </span>
+<span id="cb4-3"><a href="#cb4-3"></a>               <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, </span>
+<span id="cb4-5"><a href="#cb4-5"></a>               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>, </span>
+<span id="cb4-6"><a href="#cb4-6"></a>               <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>, </span>
+<span id="cb4-7"><a href="#cb4-7"></a>              <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, </span>
+<span id="cb4-8"><a href="#cb4-8"></a>               <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, </span>
+<span id="cb4-9"><a href="#cb4-9"></a>               <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>, <span class="dv">-1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>, <span class="dv">0</span>), <span class="dv">9</span>, <span class="dv">9</span>)</span>
+<span id="cb4-10"><a href="#cb4-10"></a></span>
+<span id="cb4-11"><a href="#cb4-11"></a>g &lt;-<span class="st"> </span>igraph<span class="op">::</span><span class="kw">graph_from_adjacency_matrix</span>(A,<span class="st">&quot;undirected&quot;</span>,<span class="dt">weighted =</span> <span class="st">&quot;sign&quot;</span>)</span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="kw">eigen_centrality_signed</span>(g)</span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; Error in eigen_centrality_signed(g): no dominant eigenvalue exists</span></span></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

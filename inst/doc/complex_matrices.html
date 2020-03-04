@@ -18,9 +18,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +30,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +48,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -304,62 +306,62 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <p>This vignette describes the use of complex matrices for signed networks with ambivalent ties.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(igraph)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(signnet)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(signnet)</span></code></pre></div>
 <div id="representing-networks-with-ambivalent-ties" class="section level2">
 <h2>Representing networks with ambivalent ties</h2>
 <p>The vignette on <a href="signed_2mode.html">signed two-mode network</a> introduces a third type of tie for signed networks, the ambivalent tie.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># construct network</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">el &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;b&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;c&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;b&quot;</span>),<span class="dt">ncol =</span> <span class="dv">2</span>,<span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">g &lt;-<span class="st"> </span><span class="kw">graph_from_edgelist</span>(el,<span class="dt">directed =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">E</span>(g)<span class="op">$</span>sign &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">V</span>(g)<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># vertex duplication</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">gu &lt;-<span class="st"> </span><span class="kw">as_unsigned_2mode</span>(g,<span class="dt">primary =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># project and binarize</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">pu &lt;-<span class="st"> </span><span class="kw">bipartite_projection</span>(gu,<span class="dt">which =</span> <span class="st">&quot;true&quot;</span>)</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12">pu &lt;-<span class="st"> </span><span class="kw">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co"># vertex contraction</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">ps &lt;-<span class="st"> </span><span class="kw">as_signed_proj</span>(pu)</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="kw">as_data_frame</span>(ps,<span class="st">&quot;edges&quot;</span>)</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   from to type</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; 1    a  b    A</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 2    a  c    N</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 3    b  c    N</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># construct network</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>el &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;b&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;c&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;b&quot;</span>),<span class="dt">ncol =</span> <span class="dv">2</span>,<span class="dt">byrow =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>g &lt;-<span class="st"> </span><span class="kw">graph_from_edgelist</span>(el,<span class="dt">directed =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">E</span>(g)<span class="op">$</span>sign &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">V</span>(g)<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">FALSE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">FALSE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># vertex duplication</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>gu &lt;-<span class="st"> </span><span class="kw">as_unsigned_2mode</span>(g,<span class="dt">primary =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># project and binarize</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>pu &lt;-<span class="st"> </span><span class="kw">bipartite_projection</span>(gu,<span class="dt">which =</span> <span class="st">&quot;true&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12"></a>pu &lt;-<span class="st"> </span><span class="kw">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># vertex contraction</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>ps &lt;-<span class="st"> </span><span class="kw">as_signed_proj</span>(pu)</span>
+<span id="cb2-16"><a href="#cb2-16"></a>igraph<span class="op">::</span><span class="kw">as_data_frame</span>(ps,<span class="st">&quot;edges&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;   from to type</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; 1    a  b    A</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; 2    a  c    N</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; 3    b  c    N</span></span></code></pre></div>
 <p>Ambivalent ties add a new level of complexity for analytic tasks (especially involving matrices) since it is not clear which value to assign to them. Intuitively they should be “somewhere” between a positive and a negative tie but zero is already taken for the null tie.</p>
 <p>We can construct a kind of adjacency matrix with the character values, but we can’t really work with characters analytically.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">as_adj</span>(ps,<span class="dt">type =</span> <span class="st">&quot;both&quot;</span>, <span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>, <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt;   a   b   c  </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; a &quot;&quot;  &quot;A&quot; &quot;N&quot;</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; b &quot;A&quot; &quot;&quot;  &quot;N&quot;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; c &quot;N&quot; &quot;N&quot; &quot;&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">as_adj</span>(ps,<span class="dt">type =</span> <span class="st">&quot;both&quot;</span>, <span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>, <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;   a   b   c  </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; a &quot;&quot;  &quot;A&quot; &quot;N&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; b &quot;A&quot; &quot;&quot;  &quot;N&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; c &quot;N&quot; &quot;N&quot; &quot;&quot;</span></span></code></pre></div>
 <p>This is where complex matrices come in. Instead of thinking about edge values being only in one dimension, we can add a second one for negative ties. That is, a positive tie would be coded as <span class="math inline">\((1,0)\)</span> and a negative one as <span class="math inline">\((0,1)\)</span>. It is much easier in this case to include ambivalent ties by assigning <span class="math inline">\((0.5,0.5)\)</span> to them.</p>
-<p>Tuples like these can also be written as a complex number, i.e. <span class="math inline">\((1,0)\)</span> turns into <span class="math inline">\(1+0i\)</span>, <span class="math inline">\((0,1)\)</span> into <span class="math inline">\(0+1i\)</span>, and <span class="math inline">\((0.5,0.5)\)</span> into <span class="math inline">\(0.5+0.5i\)</span>. Complex numbers may be scary to some, but they have a kind of intuitive interpretation here. The real part is the positive value of an edge and the imaginary part is the negative part. So we could actually also have something like <span class="math inline">\(0.3+0.7i\)</span> which is an edge that is 30% positive and 70% negative. For now, though, the three values from above suffice.</p>
+<p>Tuples like these can also be written as a complex number, i.e. <span class="math inline">\((1,0)\)</span> turns into <span class="math inline">\(1+0i\)</span>, <span class="math inline">\((0,1)\)</span> into <span class="math inline">\(0+1i\)</span>, and <span class="math inline">\((0.5,0.5)\)</span> into <span class="math inline">\(0.5+0.5i\)</span>. Complex numbers may be scary to some, but they have a kind of intuitive interpretation here. The real part is the positive value of an edge and the imaginary part is the negative part. So we could actually also have something like <span class="math inline">\(0.3+0.7i\)</span> which is an edge that is 30% positive and 70% negative. For now, though, the three values from above suffice.</p>
 <p>The function <code>as_adj_complex()</code> can be used to return the complex adjacency matrix of a signed network with ambivalent ties.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">as_adj_complex</span>(ps,<span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt;          a        b    c</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; a 0.0+0.0i 0.5+0.5i 0+1i</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; b 0.5-0.5i 0.0+0.0i 0+1i</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; c 0.0-1.0i 0.0-1.0i 0+0i</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">as_adj_complex</span>(ps,<span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt;          a        b    c
+#&gt; a 0.0+0.0i 0.5+0.5i 0+1i
+#&gt; b 0.5-0.5i 0.0+0.0i 0+1i
+#&gt; c 0.0-1.0i 0.0-1.0i 0+0i</code></pre>
 <p>When there is a complex adjacency matrix, then there is also a complex Laplacian matrix. This matrix can be obtained with <code>laplacian_matrix_complex()</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">laplacian_matrix_complex</span>(ps, <span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt;                a              b    c</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; a  1.707107+0.0i -0.500000-0.5i 0-1i</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; b -0.500000+0.5i  1.707107+0.0i 0-1i</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; c  0.000000+1.0i  0.000000+1.0i 2+0i</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">laplacian_matrix_complex</span>(ps, <span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt;                a              b    c
+#&gt; a  1.707107+0.0i -0.500000-0.5i 0-1i
+#&gt; b -0.500000+0.5i  1.707107+0.0i 0-1i
+#&gt; c  0.000000+1.0i  0.000000+1.0i 2+0i</code></pre>
 </div>
-<div id="functions-supporting-ambivalent-ties" class="section level1">
-<h1>Functions supporting ambivalent ties</h1>
+<div id="functions-supporting-ambivalent-ties" class="section level2">
+<h2>Functions supporting ambivalent ties</h2>
 <p>So far, only the triangle routines support networks with ambivalent ties.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw">graph.full</span>(<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">E</span>(g)<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;P&quot;</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="st">&quot;N&quot;</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">count_complex_triangles</span>(g,<span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; PPP PPN PNN NNN PPA PNA NNA PAA NAA AAA </span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;   0   2   0   0   1   3   1   0   2   1</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>g &lt;-<span class="st"> </span><span class="kw">graph.full</span>(<span class="dv">5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">E</span>(g)<span class="op">$</span>type &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;P&quot;</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="st">&quot;N&quot;</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">4</span>))</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">count_complex_triangles</span>(g,<span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; PPP PPN PNN NNN PPA PNA NNA PAA NAA AAA </span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt;   0   2   0   0   1   3   1   0   2   1</span></span></code></pre></div>
 </div>
 
 

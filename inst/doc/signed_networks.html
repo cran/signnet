@@ -18,9 +18,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +30,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +48,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -304,8 +306,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <p>This vignette describes signed networks and how they are implemented in the <code>signnet</code> package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(igraph)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(signnet)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(signnet)</span></code></pre></div>
 <div id="what-are-signed-networks" class="section level2">
 <h2>What are signed networks?</h2>
 <p>Traditional SNA usually deals with relations among entities (e.g. people) that are positive, including “friendship”, “advice seeking”, etc. Most network analytic tools are devised under this premise, be that centrality indices, clustering tools and so forth. But of course not all occurring relations are positive. People can be friends but also foes.</p>
@@ -322,31 +324,31 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="data-structures-for-signed-networks-in-signnet" class="section level2">
 <h2>Data structures for signed networks in <code>signnet</code></h2>
 <p>The foundation of <code>signnet</code> is provided by <code>igraph</code>. All functions in the package assume that an igraph object is a signed network if it has an edge attribute “sign” with values 1 (positive) or -1 (negative).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw">graph.full</span>(<span class="dv">5</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>,<span class="dt">loops =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">E</span>(g)<span class="op">$</span>sign &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">g</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; IGRAPH d902d9a U--- 5 10 -- Full graph</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; + attr: name (g/c), loops (g/l), sign (e/n)</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; + edges from d902d9a:</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  [1] 1--2 1--3 1--4 1--5 2--3 2--4 2--5 3--4 3--5 4--5</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>g &lt;-<span class="st"> </span><span class="kw">graph.full</span>(<span class="dv">5</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>,<span class="dt">loops =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">E</span>(g)<span class="op">$</span>sign &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>g</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; IGRAPH ac8bfcd U--- 5 10 -- Full graph</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; + attr: name (g/c), loops (g/l), sign (e/n)</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; + edges from ac8bfcd:</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  [1] 1--2 1--3 1--4 1--5 2--3 2--4 2--5 3--4 3--5 4--5</span></span></code></pre></div>
 <p>All methods (should) throw an error if the sign attribute is missing or contains other values than -1 and 1.</p>
 <p>Matrices associated with a signed network follow the <code>igraph</code> naming scheme. The signed adjacency matrix can be obtained with <code>as_adj_signed()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">data</span>(<span class="st">&quot;tribes&quot;</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">as_adj_signed</span>(tribes)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;       Gavev Kotun Ove Alika Nagam</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Gavev     0     1  -1    -1    -1</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Kotun     1     0  -1     0    -1</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Ove      -1    -1   0     1     0</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Alika    -1     0   1     0     0</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; Nagam    -1    -1   0     0     0</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">data</span>(<span class="st">&quot;tribes&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">as_adj_signed</span>(tribes)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;       Gavev Kotun Ove Alika Nagam</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; Gavev     0     1  -1    -1    -1</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; Kotun     1     0  -1     0    -1</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; Ove      -1    -1   0     1     0</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; Alika    -1     0   1     0     0</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; Nagam    -1    -1   0     0     0</span></span></code></pre></div>
 <p>The signed Laplacian matrix is obtained by <code>laplacian_matrix_signed()</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">laplacian_matrix_signed</span>(tribes)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt;       Gavev Kotun Ove Alika Nagam</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Gavev     8    -1   1     1     1</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Kotun    -1     8   1     0     1</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Ove       1     1   6    -1     0</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Alika     1     0  -1     3     0</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Nagam     1     1   0     0     7</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">laplacian_matrix_signed</span>(tribes)[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt;       Gavev Kotun Ove Alika Nagam</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; Gavev     8    -1   1     1     1</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Kotun    -1     8   1     0     1</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; Ove       1     1   6    -1     0</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; Alika     1     0  -1     3     0</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; Nagam     1     1   0     0     7</span></span></code></pre></div>
 </div>
 <div id="included-datasets" class="section level2">
 <h2>Included datasets</h2>

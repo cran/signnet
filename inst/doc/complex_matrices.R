@@ -26,16 +26,26 @@ pu <- delete_edge_attr(pu,"weight")
 
 # vertex contraction
 ps <- as_signed_proj(pu)
-as_data_frame(ps,"edges")
+igraph::as_data_frame(ps,"edges")
 
 ## ----pna_adj------------------------------------------------------------------
 as_adj(ps,type = "both", attr = "type", sparse = FALSE)
 
-## ----complex_adj--------------------------------------------------------------
-as_adj_complex(ps,attr = "type")
+## ----complex_adj,eval=FALSE---------------------------------------------------
+#  as_adj_complex(ps,attr = "type")
 
-## ----complex_lapl-------------------------------------------------------------
-laplacian_matrix_complex(ps, attr = "type")
+## ----sneaky_show,echo=FALSE---------------------------------------------------
+structure(c(0+0i, 0.5-0.5i, 0-1i, 0.5+0.5i, 0+0i, 0-1i, 0+1i, 
+0+1i, 0+0i), .Dim = c(3L, 3L), .Dimnames = list(c("a", "b", "c"
+), c("a", "b", "c")))
+
+## ----complex_lapl, eval=FALSE-------------------------------------------------
+#  laplacian_matrix_complex(ps, attr = "type")
+
+## ----sneaky_show1,echo=FALSE--------------------------------------------------
+structure(c(1.70710678118655+0i, -0.5+0.5i, 0+1i, -0.5-0.5i, 
+1.70710678118655+0i, 0+1i, 0-1i, 0-1i, 2+0i), .Dim = c(3L, 3L
+), .Dimnames = list(c("a", "b", "c"), c("a", "b", "c")))
 
 ## ----ambi_net-----------------------------------------------------------------
 g <- graph.full(5)
