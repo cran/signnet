@@ -1,6 +1,6 @@
 Package: signnet
 Title: Methods to Analyse Signed Networks
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: 
     person(given = "David",
            family = "Schoch",
@@ -14,13 +14,13 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: igraph, Rcpp, Matrix
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: testthat (>= 2.1.0), covr, ggplot2, ggraph, knitr, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2020-03-04 13:36:23 UTC; david
+Packaged: 2020-06-30 14:24:11 UTC; david
 Author: David Schoch [aut, cre]
 Maintainer: David Schoch <david.schoch@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2020-03-04 14:10:02 UTC
+Date/Publication: 2020-06-30 15:40:06 UTC

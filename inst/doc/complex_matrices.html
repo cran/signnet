@@ -8,12 +8,28 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
 <title>Complex Matrices</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -117,9 +133,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,7 +301,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -329,15 +343,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <span id="cb2-16"><a href="#cb2-16"></a>igraph<span class="op">::</span><span class="kw">as_data_frame</span>(ps,<span class="st">&quot;edges&quot;</span>)</span>
 <span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;   from to type</span></span>
 <span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; 1    a  b    A</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; 2    a  c    N</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; 3    b  c    N</span></span></code></pre></div>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; 2    a  c &lt;NA&gt;</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; 3    b  c &lt;NA&gt;</span></span></code></pre></div>
 <p>Ambivalent ties add a new level of complexity for analytic tasks (especially involving matrices) since it is not clear which value to assign to them. Intuitively they should be “somewhere” between a positive and a negative tie but zero is already taken for the null tie.</p>
 <p>We can construct a kind of adjacency matrix with the character values, but we can’t really work with characters analytically.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">as_adj</span>(ps,<span class="dt">type =</span> <span class="st">&quot;both&quot;</span>, <span class="dt">attr =</span> <span class="st">&quot;type&quot;</span>, <span class="dt">sparse =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;   a   b   c  </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; a &quot;&quot;  &quot;A&quot; &quot;N&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; b &quot;A&quot; &quot;&quot;  &quot;N&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; c &quot;N&quot; &quot;N&quot; &quot;&quot;</span></span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;   a   b   c </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; a &quot;&quot;  &quot;A&quot; NA</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; b &quot;A&quot; &quot;&quot;  NA</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; c NA  NA  &quot;&quot;</span></span></code></pre></div>
 <p>This is where complex matrices come in. Instead of thinking about edge values being only in one dimension, we can add a second one for negative ties. That is, a positive tie would be coded as <span class="math inline">\((1,0)\)</span> and a negative one as <span class="math inline">\((0,1)\)</span>. It is much easier in this case to include ambivalent ties by assigning <span class="math inline">\((0.5,0.5)\)</span> to them.</p>
 <p>Tuples like these can also be written as a complex number, i.e. <span class="math inline">\((1,0)\)</span> turns into <span class="math inline">\(1+0i\)</span>, <span class="math inline">\((0,1)\)</span> into <span class="math inline">\(0+1i\)</span>, and <span class="math inline">\((0.5,0.5)\)</span> into <span class="math inline">\(0.5+0.5i\)</span>. Complex numbers may be scary to some, but they have a kind of intuitive interpretation here. The real part is the positive value of an edge and the imaginary part is the negative part. So we could actually also have something like <span class="math inline">\(0.3+0.7i\)</span> which is an edge that is 30% positive and 70% negative. For now, though, the three values from above suffice.</p>
 <p>The function <code>as_adj_complex()</code> can be used to return the complex adjacency matrix of a signed network with ambivalent ties.</p>
