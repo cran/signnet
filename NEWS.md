@@ -1,3 +1,8 @@
+# signnet 0.6.0
+
+* added `avatar` dataset
+* speed up of blockmodeling for larger networks
+
 # signnet 0.5.3
 
 * fixed issue in `complex_walks()`

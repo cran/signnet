@@ -14,6 +14,19 @@
 
 <title>Signed Two-Mode Networks</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 <script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
 // v0.0.1
 // Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
@@ -34,19 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -66,7 +78,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -353,17 +365,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>This can be done for the whole network with the function <code>as_unsigned_2mode()</code> by specifying the primary mode (either TRUE or FALSE).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>gu &lt;-<span class="st"> </span><span class="kw">as_unsigned_2mode</span>(g,<span class="dt">primary =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb4-2"><a href="#cb4-2"></a>gu</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; IGRAPH 88d1450 UN-B 8 5 -- </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; IGRAPH f05d410 UN-B 8 5 -- </span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; + attr: name (v/c), type (v/l)</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; + edges from 88d1450 (vertex names):</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; + edges from f05d410 (vertex names):</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; [1] a-pos--1 b-pos--1 c-neg--1 a-pos--2 b-neg--2</span></span></code></pre></div>
 <p>Now, any binarization toll (e.g. from the <code>backbone</code> package) can be applied since the network is an unsigned two-mode network. For illustration, we include all edges with a weight greater one (the “universal” approach) since it can be done without the <code>backbone</code> package.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>pu &lt;-<span class="st"> </span><span class="kw">bipartite_projection</span>(gu,<span class="dt">which =</span> <span class="st">&quot;true&quot;</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>pu &lt;-<span class="st"> </span><span class="kw">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>pu</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; IGRAPH bf87686 UN-- 6 4 -- </span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; IGRAPH 8abfb61 UN-- 6 4 -- </span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; + attr: name (v/c)</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; + edges from bf87686 (vertex names):</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; + edges from 8abfb61 (vertex names):</span></span>
 <span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; [1] a-pos--b-pos a-pos--c-neg a-pos--b-neg b-pos--c-neg</span></span></code></pre></div>
 <p>After binarization, the network is turned back to an unsigned network using a <em>contraction rule</em>. The contraction rule works as follows.</p>
 <p>If there is an edge (a-pos,b-pos) or (a-neg,b-neg) in the projection then there is a positive edge (a,b) in the signed projection.</p>

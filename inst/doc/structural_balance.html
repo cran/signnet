@@ -14,6 +14,19 @@
 
 <title>Structural Balance</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 <script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
 // v0.0.1
 // Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
@@ -34,19 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -66,7 +78,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -334,17 +346,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>A balanced network only contains balanced triangles. This can be verified with <code>count_signed_triangles()</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">count_signed_triangles</span>(g)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; +++ ++- +-- --- </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; 139   0   3   0</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; 102   0   8   0</span></span></code></pre></div>
 <p>Note the absence of <code>++-</code> and <code>---</code> triangles.</p>
 <p>To list all triangles use <code>signed_triangles()</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">head</span>(<span class="kw">signed_triangles</span>(g))</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt;      V1 V2 V3 P</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; [1,]  6  3 24 3</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; [2,]  6  2 18 3</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; [3,] 13  1  6 3</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; [4,] 13  8 24 3</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; [5,] 13  9 29 3</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; [6,] 13 10 32 3</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; [1,] 75 28 74 1</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; [2,] 70 76 53 1</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; [3,] 70 30 75 1</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; [4,] 70 32 74 1</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; [5,] 70 77 44 1</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; [6,] 44 45 66 3</span></span></code></pre></div>
 <p>The column P indicated the number of positive ties in the triangle. A value of 3 indicates that the triangle is “+++”.</p>
 </div>
 <div id="balancedness" class="section level2">
