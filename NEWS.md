@@ -1,3 +1,7 @@
+# signnet 0.7.0
+
+* added `triad_census_signed()`
+
 # signnet 0.6.0
 
 * added `avatar` dataset
