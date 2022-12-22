@@ -2,12 +2,12 @@
 % Please edit documentation in R/blockmodel.R
 \name{signed_blockmodel}
 \alias{signed_blockmodel}
-\title{Blockmodelling for signed networks}
+\title{Blockmodeling for signed networks}
 \usage{
 signed_blockmodel(g, k, alpha = 0.5, annealing = FALSE)
 }
 \arguments{
-\item{g}{igraph object. Must have a "sign" edge attribute.}
+\item{g}{igraph object with a sign edge attribute.}
 
 \item{k}{number of blocks}
 
@@ -24,21 +24,21 @@ Finds blocks of nodes with intra-positive and inter-negative edges
 \details{
 The function minimizes P(C)=\eqn{\alpha}N+(1-\eqn{\alpha})P,
 where N is the total number of negative ties within plus-sets and P be the total number of
-positive ties between plus-sets. This function implementes the structural balance model. That is,
+positive ties between plus-sets. This function implements the structural balance model. That is,
 all diagonal blocks are positive and off-diagonal blocks negative.
 For the generalized version see \link{signed_blockmodel_general}.
 }
 \examples{
 library(igraph)
 
-g <- sample_islands_signed(10,10,1,20)
-clu <- signed_blockmodel(g,k = 10,alpha = 0.5)
+g <- sample_islands_signed(10, 10, 1, 20)
+clu <- signed_blockmodel(g, k = 10, alpha = 0.5)
 table(clu$membership)
 clu$criterion
 
 # Using simulated annealing (less change of getting trapped in local optima)
 data("tribes")
-clu <- signed_blockmodel(tribes,k = 3,alpha=0.5,annealing = TRUE)
+clu <- signed_blockmodel(tribes, k = 3, alpha = 0.5, annealing = TRUE)
 table(clu$membership)
 clu$criterion
 }

@@ -9,7 +9,7 @@ count_complex_triangles(g, attr)
 \arguments{
 \item{g}{igraph object.}
 
-\item{attr}{edge attribute name that encodes positve ("P"), negative ("N") and ambivalent ("A") ties.}
+\item{attr}{edge attribute name that encodes positive ("P"), negative ("N") and ambivalent ("A") ties.}
 }
 \value{
 counts for all complex triangle types
@@ -20,8 +20,8 @@ Counts the number of all possible signed triangles (+++),(++-), (+--) and (---)
 \examples{
 library(igraph)
 g <- graph.full(4)
-E(g)$type <- c("P","N","A","A","P","N")
-count_complex_triangles(g,attr = "type")
+E(g)$type <- c("P", "N", "A", "A", "P", "N")
+count_complex_triangles(g, attr = "type")
 }
 \seealso{
 \link{signed_triangles}

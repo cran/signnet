@@ -68,7 +68,8 @@ balance_score(tribes,method = "frustration")
 ```
 
 For directed signed networks, `triad_census_signed()` can be used to
-compute the count for all 138 non-isomorphic signed triads.
+compute the count for all 138 non-isomorphic signed triads. *(The figure
+below shows all 138 signed triads that can occur in a directed network)*
 <img src="man/figures/signed_triads.png"/>
 
 # Blockmodeling
@@ -82,7 +83,7 @@ are negative.
 clu <- signed_blockmodel(tribes,k = 3,alpha = 0.5,annealing = TRUE)
 clu
 #> $membership
-#>  [1] 2 2 3 3 1 3 3 3 1 1 3 3 1 1 2 2
+#>  [1] 3 3 2 2 1 2 2 2 1 1 2 2 1 1 3 3
 #> 
 #> $criterion
 #> [1] 2
@@ -138,7 +139,7 @@ blockmat
 clu <- signed_blockmodel_general(g,blockmat,0.5)
 clu
 #> $membership
-#>  [1] 2 3 2 2 2 2 2 2 2 2 3 3 3 1 3
+#>  [1] 3 2 2 2 2 1 1 1 1 1 3 1 3 1 3
 #> 
 #> $criterion
 #> [1] 0
@@ -146,3 +147,30 @@ ggblock(g,clu$membership,show_blocks = TRUE,show_labels = FALSE)
 ```
 
 <img src="man/figures/README-general_example-1.png" width="100%" />
+
+# How to reach out?
+
+### Where do I report bugs?
+
+Simply [open an
+issue](https://github.com/schochastics/signnet/issues/new) on GitHub.
+
+### How do I contribute to the package?
+
+If you have an idea (but no code yet), [open an
+issue](https://github.com/schochastics/signnet/issues/new) on GitHub. If
+you want to contribute with a specific feature and have the code ready,
+fork the repository, add your code, and create a pull request.
+
+### Do you need support?
+
+The easiest way is to [open an
+issue](https://github.com/schochastics/signnet/issues/new) - this way,
+your question is also visible to others who may face similar problems.
+
+### Code of Conduct
+
+Please note that the signnet project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
