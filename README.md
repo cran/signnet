@@ -11,6 +11,8 @@ status](https://www.r-pkg.org/badges/version/signnet)](https://cran.r-project.or
 [![Downloads](https://cranlogs.r-pkg.org/badges/signnet)](https://CRAN.R-project.org/package=signnet)
 [![Codecov test
 coverage](https://codecov.io/gh/schochastics/signnet/branch/master/graph/badge.svg)](https://app.codecov.io/gh/schochastics/signnet?branch=master)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7522563.svg)](https://doi.org/10.5281/zenodo.7522563)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.04987/status.svg)](https://doi.org/10.21105/joss.04987)
 <!-- badges: end -->
 
 The package provides methods to analyse signed networks (i.e. networks
@@ -68,8 +70,9 @@ balance_score(tribes,method = "frustration")
 ```
 
 For directed signed networks, `triad_census_signed()` can be used to
-compute the count for all 138 non-isomorphic signed triads. *(The figure
-below shows all 138 signed triads that can occur in a directed network)*
+compute the count for all 138 non-isomorphic signed triads. *(The code
+to reproduce this figure can be found in [this
+gist](https://gist.github.com/schochastics/dd1974b42cfa5367cf6d8cb9e43bae32))*
 <img src="man/figures/signed_triads.png"/>
 
 # Blockmodeling
@@ -83,7 +86,7 @@ are negative.
 clu <- signed_blockmodel(tribes,k = 3,alpha = 0.5,annealing = TRUE)
 clu
 #> $membership
-#>  [1] 3 3 2 2 1 2 2 2 1 1 2 2 1 1 3 3
+#>  [1] 1 1 3 3 2 3 3 3 2 2 3 3 2 2 1 1
 #> 
 #> $criterion
 #> [1] 2
@@ -139,7 +142,7 @@ blockmat
 clu <- signed_blockmodel_general(g,blockmat,0.5)
 clu
 #> $membership
-#>  [1] 3 2 2 2 2 1 1 1 1 1 3 1 3 1 3
+#>  [1] 1 1 1 1 1 2 2 2 2 2 3 3 3 3 3
 #> 
 #> $criterion
 #> [1] 0
