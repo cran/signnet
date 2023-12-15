@@ -1,3 +1,9 @@
+# signnet 1.0.3
+
+* code refactoring
+* more tests #17
+* removed deprecated calls to aes_ #23
+
 # signnet 1.0.2
 
 * fixed a bug in `signed_triangles()` that resulted in wrong vertex ids (#20)
