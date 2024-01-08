@@ -392,9 +392,9 @@ edge to a and thus 1 connects to a-pos.</p>
 TRUE or FALSE).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gu <span class="ot">&lt;-</span> <span class="fu">as_unsigned_2mode</span>(g,<span class="at">primary =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gu</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH 337eee8 UN-B 8 5 -- </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH 5ea3498 UN-B 8 5 -- </span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + attr: name (v/c), type (v/l)</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from 337eee8 (vertex names):</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from 5ea3498 (vertex names):</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] a-pos--1 b-pos--1 c-neg--1 a-pos--2 b-neg--2</span></span></code></pre></div>
 <p>Now, any binarization toll (e.g. from the <code>backbone</code>
 package) can be applied since the network is an unsigned two-mode
@@ -404,9 +404,9 @@ one (the “universal” approach) since it can be done without the
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">bipartite_projection</span>(gu,<span class="at">which =</span> <span class="st">&quot;true&quot;</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pu</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH da1a19e UN-- 6 4 -- </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH 02bda2d UN-- 6 4 -- </span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + attr: name (v/c)</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from da1a19e (vertex names):</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from 02bda2d (vertex names):</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] a-pos--b-pos a-pos--c-neg a-pos--b-neg b-pos--c-neg</span></span></code></pre></div>
 <p>After binarization, the network is turned back to an unsigned network
 using a <em>contraction rule</em>. The contraction rule works as

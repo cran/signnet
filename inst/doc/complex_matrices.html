@@ -351,21 +351,21 @@ networks with ambivalent ties.</p>
 network</a> introduces a third type of tie for signed networks, the
 ambivalent tie.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct network</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>el <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;b&quot;</span>,<span class="dv">1</span>,<span class="st">&quot;c&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;a&quot;</span>,<span class="dv">2</span>,<span class="st">&quot;b&quot;</span>),<span class="at">ncol =</span> <span class="dv">2</span>,<span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_edgelist</span>(el,<span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>sign <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>el <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&quot;a&quot;</span>, <span class="dv">1</span>, <span class="st">&quot;b&quot;</span>, <span class="dv">1</span>, <span class="st">&quot;c&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;a&quot;</span>, <span class="dv">2</span>, <span class="st">&quot;b&quot;</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_edgelist</span>(el, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>sign <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># vertex duplication</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>gu <span class="ot">&lt;-</span> <span class="fu">as_unsigned_2mode</span>(g,<span class="at">primary =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>gu <span class="ot">&lt;-</span> <span class="fu">as_unsigned_2mode</span>(g, <span class="at">primary =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># project and binarize</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">bipartite_projection</span>(gu,<span class="at">which =</span> <span class="st">&quot;true&quot;</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">delete_edge_attr</span>(pu,<span class="st">&quot;weight&quot;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">bipartite_projection</span>(gu, <span class="at">which =</span> <span class="st">&quot;true&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>pu <span class="ot">&lt;-</span> <span class="fu">delete_edge_attr</span>(pu, <span class="st">&quot;weight&quot;</span>)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># vertex contraction</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">as_signed_proj</span>(pu)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">as_data_frame</span>(ps,<span class="st">&quot;edges&quot;</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">as_data_frame</span>(ps, <span class="st">&quot;edges&quot;</span>)</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   from to type</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    a  b    A</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    a  c    N</span></span>
@@ -377,11 +377,6 @@ positive and a negative tie but zero is already taken for the null
 tie.</p>
 <p>We can construct a kind of adjacency matrix with the character
 values, but we can’t really work with characters analytically.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_adj</span>(ps,<span class="at">type =</span> <span class="st">&quot;both&quot;</span>, <span class="at">attr =</span> <span class="st">&quot;type&quot;</span>, <span class="at">sparse =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   a   b   c  </span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a &quot;&quot;  &quot;A&quot; &quot;N&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; b &quot;A&quot; &quot;&quot;  &quot;N&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; c &quot;N&quot; &quot;N&quot; &quot;&quot;</span></span></code></pre></div>
 <p>This is where complex matrices come in. Instead of thinking about
 edge values being only in one dimension, we can add a second one for
 negative ties. That is, a positive tie would be coded as <span class="math inline">\((1,0)\)</span> and a negative one as <span class="math inline">\((0,1)\)</span>. It is much easier in this case to
@@ -394,7 +389,7 @@ positive and 70% negative. For now, though, the three values from above
 suffice.</p>
 <p>The function <code>as_adj_complex()</code> can be used to return the
 complex adjacency matrix of a signed network with ambivalent ties.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_adj_complex</span>(ps,<span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_adj_complex</span>(ps, <span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt;          a        b    c
 #&gt; a 0.0+0.0i 0.5+0.5i 0+1i
 #&gt; b 0.5-0.5i 0.0+0.0i 0+1i
@@ -402,7 +397,7 @@ complex adjacency matrix of a signed network with ambivalent ties.</p>
 <p>When there is a complex adjacency matrix, then there is also a
 complex Laplacian matrix. This matrix can be obtained with
 <code>laplacian_matrix_complex()</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">laplacian_matrix_complex</span>(ps, <span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">laplacian_matrix_complex</span>(ps, <span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt;                a              b    c
 #&gt; a  1.707107+0.0i -0.500000-0.5i 0-1i
 #&gt; b -0.500000+0.5i  1.707107+0.0i 0-1i
@@ -412,12 +407,12 @@ complex Laplacian matrix. This matrix can be obtained with
 <h2>Functions supporting ambivalent ties</h2>
 <p>So far, only the triangle routines support networks with ambivalent
 ties.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.full</span>(<span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;P&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;N&quot;</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">4</span>))</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count_complex_triangles</span>(g,<span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PPP PPN PNN NNN PPA PNA NNA PAA NAA AAA </span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0   2   0   0   1   3   1   0   2   1</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.full</span>(<span class="dv">5</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;P&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;N&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">4</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">count_complex_triangles</span>(g, <span class="at">attr =</span> <span class="st">&quot;type&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PPP PPN PNN NNN PPA PNA NNA PAA NAA AAA </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0   2   0   0   1   3   1   0   2   1</span></span></code></pre></div>
 </div>
 
 

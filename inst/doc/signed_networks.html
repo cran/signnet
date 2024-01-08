@@ -376,9 +376,9 @@ values 1 (positive) or -1 (negative).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.full</span>(<span class="dv">5</span>,<span class="at">directed =</span> <span class="cn">FALSE</span>,<span class="at">loops =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>sign <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH fcbf86c U--- 5 10 -- Full graph</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH 1885b49 U--- 5 10 -- Full graph</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + attr: name (g/c), loops (g/l), sign (e/n)</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from fcbf86c:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + edges from 1885b49:</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 1--2 1--3 1--4 1--5 2--3 2--4 2--5 3--4 3--5 4--5</span></span></code></pre></div>
 <p>All methods (should) throw an error if the sign attribute is missing
 or contains other values than -1 and 1.</p>
