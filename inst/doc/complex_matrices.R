@@ -29,7 +29,7 @@ ps <- as_signed_proj(pu)
 igraph::as_data_frame(ps, "edges")
 
 ## ----complex_adj,eval=FALSE---------------------------------------------------
-#  as_adj_complex(ps, attr = "type")
+# as_adj_complex(ps, attr = "type")
 
 ## ----sneaky_show,echo=FALSE---------------------------------------------------
 structure(c(
@@ -38,7 +38,7 @@ structure(c(
 ), .Dim = c(3L, 3L), .Dimnames = list(c("a", "b", "c"), c("a", "b", "c")))
 
 ## ----complex_lapl, eval=FALSE-------------------------------------------------
-#  laplacian_matrix_complex(ps, attr = "type")
+# laplacian_matrix_complex(ps, attr = "type")
 
 ## ----sneaky_show1,echo=FALSE--------------------------------------------------
 structure(c(

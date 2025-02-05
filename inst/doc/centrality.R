@@ -33,6 +33,7 @@ pn_index(g)
 cor(eigen_centrality_signed(g),pn_index(g),method = "kendall")
 
 ## ----non_dominant,error=TRUE--------------------------------------------------
+try({
 A <- matrix(c( 0,  1,  1, -1,  0,  0, -1,  0,  0, 
                1,  0,  1,  0, -1,  0,  0, -1,  0, 
                1,  1,  0,  0,  0, -1,  0,  0, -1, 
@@ -46,4 +47,5 @@ A <- matrix(c( 0,  1,  1, -1,  0,  0, -1,  0,  0,
 g <- igraph::graph_from_adjacency_matrix(A,"undirected",weighted = "sign")
 eigen_centrality_signed(g)
 
+})
 

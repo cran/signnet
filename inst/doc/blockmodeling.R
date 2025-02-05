@@ -17,7 +17,7 @@ table(clu$membership)
 clu$criterion
 
 ## ----blockmodel_ex_plot,eval=FALSE--------------------------------------------
-#  ggblock(g,clu$membership,show_blocks = TRUE)
+# ggblock(g,clu$membership,show_blocks = TRUE)
 
 ## ----example, echo=FALSE,out.width = "80%",fig.align='center'-----------------
 knitr::include_graphics("blockmodel_example.png")
