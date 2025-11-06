@@ -11,7 +11,7 @@ library(igraph)
 library(signnet)
 
 ## ----example------------------------------------------------------------------
-g <- graph.full(5,directed = FALSE,loops = FALSE)
+g <- make_full_graph(5,directed = FALSE,loops = FALSE)
 E(g)$sign <- 1
 g
 

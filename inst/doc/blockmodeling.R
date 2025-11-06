@@ -30,7 +30,7 @@ signed_blockmodel(tribes,k = 3,alpha=0.5,annealing = TRUE)
 signed_blockmodel(tribes,k = 3,alpha=0.5,annealing = FALSE)
 
 ## ----general_example----------------------------------------------------------
-g1 <- g2 <- g3 <- graph.full(5)
+g1 <- g2 <- g3 <- make_full_graph(5)
 
 V(g1)$name <- as.character(1:5)
 V(g2)$name <- as.character(6:10)

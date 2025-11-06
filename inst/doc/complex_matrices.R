@@ -47,7 +47,7 @@ structure(c(
 ), .Dim = c(3L, 3L), .Dimnames = list(c("a", "b", "c"), c("a", "b", "c")))
 
 ## ----ambi_net-----------------------------------------------------------------
-g <- graph.full(5)
+g <- make_full_graph(5)
 E(g)$type <- c(rep("P", 3), rep("N", 3), rep("A", 4))
 
 count_complex_triangles(g, attr = "type")
